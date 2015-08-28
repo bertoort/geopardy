@@ -27,7 +27,7 @@
       requireBase: false
     });
 
-    $locationProvider.hashPrefix('!');
+    $locationProvider.hashPrefix();
   }
 
   function run() {
@@ -36,10 +36,19 @@
 
   function login($scope) {
     $scope.message = "hello";
+    $scope.cookie = $.cookie().team;
+    $scope.login = function () {
+      $.cookie('team', $scope.team);
+      console.log($scope.cookie);
+    }
   }
 
-  // app.controller('login', [ '$scope', function ($scope) {
+
+
+  //
+  // app.controller('login', [ '$scope', '$cookies', function ($scope, $cookies) {
   //   $scope.message = "hello";
+    // $cookies.put('myFavorite', 'oatmeal');
   // }])
 
 })();

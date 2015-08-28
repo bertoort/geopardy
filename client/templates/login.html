@@ -5,14 +5,14 @@ controller: login
 ---
 
 <div class="login">
-  <form>
+  <form name="login" novalidate>
     <div class="grid-block">
       <div class="block large-4 grid-container">
         <div class="small-3 medium-12 grid-content">
           <label>
             <span class='inline-label'>
               <span class="form-label"><i class='fi-torsos-all icon'></i></span>
-              <input type="text" placeholder="team name">
+              <input type="text" ng-model='team'  ng-minlength="3" placeholder="team name" required>
             </span>
           </label>
         </div>
@@ -20,17 +20,16 @@ controller: login
           <label>
             <span class='inline-label'>
               <span class="form-label"><i class='fi-lock icon'></i></span>
-              <input type="password" placeholder="password">
+              <input type="password" ng-minlength="3" placeholder="password" required>
             </span>
           </label>
         </div>
         <div class="small-3 medium-12 grid-content">
-          <a href="#" class="dark button">Login</a>
-          <a class="dark button" href="#" zf-open="advancedModal">Sign Up!</a>
+          <input type="submit" ng-disabled="login.$invalid" ng-click='login()' class="dark button" value="Login">
+          <a class="dark button" zf-open="advancedModal">Sign Up!</a>
         </div>
       </div>
     </div>
-
   </form>
 </div>
 
