@@ -1,0 +1,81 @@
+---
+name: login
+url: /login
+controller: login
+---
+
+<div class="login">
+  <form>
+    <div class="grid-block">
+      <div class="block large-4 grid-container">
+        <div class="small-3 medium-12 grid-content">
+          <label>
+            <span class='inline-label'>
+              <span class="form-label"><i class='fi-torsos-all icon'></i></span>
+              <input type="text" placeholder="team name">
+            </span>
+          </label>
+        </div>
+        <div class="small-3 medium-12 grid-content">
+          <label>
+            <span class='inline-label'>
+              <span class="form-label"><i class='fi-lock icon'></i></span>
+              <input type="password" placeholder="password">
+            </span>
+          </label>
+        </div>
+        <div class="small-3 medium-12 grid-content">
+          <a href="#" class="dark button">Login</a>
+          <a class="dark button" href="#" zf-open="advancedModal">Sign Up!</a>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div zf-modal="" id="advancedModal" class="collapse">
+  <div class="grid-block vertical">
+    <div class="dark title-bar">
+      <div class="center title">Sign Up</div>
+      <span zf-close="" class="right"><a>X</a></span>
+    </div>
+    <div class="grid-content padding" style="padding-top: 1rem;">
+      <form>
+        <div class="grid-block">
+          <div class="block large-8 grid-container">
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-torsos-all icon'></i></span>
+                  <input type="text" placeholder="team name">
+                </span>
+              </label>
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-lock icon'></i></span>
+                  <input type="password" placeholder="password">
+                </span>
+              </label>
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-lock icon'></i></span>
+                  <input type="password" placeholder="confirm password">
+                </span>
+              </label>
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <a href="#" class="dark button">Join!</a>
+              <a zf-close="" class="dark button">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

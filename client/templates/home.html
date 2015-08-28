@@ -3,7 +3,52 @@ name: home
 url: /
 ---
 
-<div class="grid-container">
-  <h1>Welcome to Foundation for Apps!</h1>
-  <p class="lead">This is version <strong>1.1 Weisshorn</strong>.</p>
+<div class="grid-frame">
+  <div zf-panel position="left" id="sidebar" class="medium-grid-block collapse medium-3 large-3 vertical">
+    <div class="grid-content collapse shrink hide-for-medium">
+      <a href="" class="secondary button expand" zf-close>Close</a>
+    </div>
+    <div class="grid-content collapse shrink">
+      <img src="http://women2.com/wp-content/uploads/2014/09/galvanize_logo.jpg">
+    </div>
+    <div class="grid-content">
+      <section class="block-list">
+        <header>Score Board</header>
+        <ul>
+          <li>
+            <a href="#">
+              Broken Promises
+              <span class="block-list-label">7</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Bees
+              <span class="block-list-label">2</span>
+            </a>
+          </li>
+          <li>
+            <a class="success" href="#">
+              Promise Land
+              <span class="block-list-label">2</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <div class="grid-content collapse shrink avatar-section">
+        <img src="http://placehold.it/50x50">
+        Regina George
+    </div>
+  </div>
+  <div  id='this' class="grid-block collapse medium-9 large-9 vertical">
+    <div id="header" class="shrink collapse grid-content">
+      <ul class="menu-bar">
+        <li class="hide-for-medium"><a zf-open="sidebar" href="#">Menu</a></li>
+        <li><a href="#">Previous</a></li>
+        <li><a href="#">Current</a></li>
+        <li><a href="#">Next</a></li>
+      </ul>
+    </div>
+  </div>
 </div>

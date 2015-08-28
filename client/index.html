@@ -3,21 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation for Apps</title>
+    <title>geopardy</title>
     <link href="./assets/css/app.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet" type="text/css">
     <script src="./assets/js/foundation.js"></script>
     <script src="./assets/js/templates.js"></script>
     <script src="./assets/js/routes.js"></script>
     <script src="./assets/js/app.js"></script>
+    <base href="/"/>
   </head>
   <body>
     <div class="grid-frame vertical">
       <div class="grid-content shrink" style="padding: 0;">
-        <ul class="primary condense menu-bar">
-          <li><a><strong>Foundation for Apps</strong></a></li>
-        </ul>
-      </div>
-      <div ui-view class="grid-content">
+        <div class="menu-group dark">
+          <div class="menu-group-left">
+          <ul class="menu-bar dark">
+            <li><a href='#!/'><strong>geopardy</strong></a></li>
+          </ul>
+          </div>
+          <div class="menu-group-right">
+          <ul class="icon-left dark menu-bar">
+            <li><a href="#!/login">Login</a></li>
+          </ul>
+          </div>
+          </div>
+      <div ui-view >
       </div>
     </div>
   </body>

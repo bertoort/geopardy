@@ -1,7 +1,8 @@
-(function() {
+(
+  function() {
   'use strict';
 
-  angular.module('application', [
+  var app = angular.module('application', [
     'ui.router',
     'ngAnimate',
 
@@ -10,11 +11,13 @@
     'foundation.dynamicRouting',
     'foundation.dynamicRouting.animations'
   ])
-    .config(config)
-    .run(run)
+    app.config(config)
+    app.run(run)
+    app.controller('login', login)
   ;
 
   config.$inject = ['$urlRouterProvider', '$locationProvider'];
+  login.$inject = ['$scope'];
 
   function config($urlProvider, $locationProvider) {
     $urlProvider.otherwise('/');
@@ -31,8 +34,12 @@
     FastClick.attach(document.body);
   }
 
-})();
+  function login($scope) {
+    $scope.message = "hello";
+  }
 
-function min() {
-  return "minimi"
-}
+  // app.controller('login', [ '$scope', function ($scope) {
+  //   $scope.message = "hello";
+  // }])
+
+})();
