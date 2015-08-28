@@ -1,6 +1,7 @@
 ---
-name: home
+name: trivia
 url: /
+controller: trivia
 ---
 
 <div class="grid-frame">
@@ -15,30 +16,16 @@ url: /
       <section class="block-list">
         <header>Score Board</header>
         <ul>
-          <li>
-            <a href="#">
-              Broken Promises
-              <span class="block-list-label">7</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Bees
-              <span class="block-list-label">2</span>
-            </a>
-          </li>
-          <li>
-            <a class="success" href="#">
-              Promise Land
-              <span class="block-list-label">2</span>
-            </a>
-          </li>
+          <div ng-repeat='team in geopardy'>
+            <li>
+              <a href="#">
+                {{team.name}}
+                <span class="block-list-label">{{team.score}}</span>
+              </a>
+            </li>
+          </div>
         </ul>
       </section>
-    </div>
-    <div class="grid-content collapse shrink avatar-section">
-        <img src="http://placehold.it/50x50">
-        Regina George
     </div>
   </div>
   <div  id='this' class="grid-block collapse medium-9 large-9 vertical">
@@ -49,6 +36,83 @@ url: /
         <li><a href="#">Current</a></li>
         <li><a href="#">Next</a></li>
       </ul>
+    </div>
+    <div class="small-10 grid-block">
+      <div class="small-10 grid-content">
+        <div class="small-10 grid-content">
+          <h4 class='teamName'>{{cookie}}</h4>
+        </div>
+      </div>
+    </div>
+    <div ng-show='cookie !== "martha"'>
+      <div ng-repeat='team in geopardy track by $index'>
+        <div ng-show='cookie === team.name'>
+          <form ng-hide='team.currentAnswer !== "" && team.editAnswer === false' name="answerForm" novalidate>
+            <div class="grid-block">
+              <div class="block large-10 grid-container">
+                <div class="small-3 medium-12 grid-content">
+                  <label>
+                    <span class='inline-label'>
+                      <span class="form-label"><i class='fi-key icon'></i></span>
+                      <input type="text" name='answer' ng-model='answer' ng-minlength="3" placeholder="answer here" required>
+                      <input type="submit" ng-disabled="answerForm.$invalid" ng-click='submitAnswer(answer, team)' class="dark button" value="answer">
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div ng-show='team.editAnswer === false' class="">
+            <div class="grid-block">
+              <div class="block large-10 grid-container">
+                <h6>Answer:</h6>
+                <div ng-dblclick='editAnswer(team)' class="showExplanation small-3 medium-12 grid-content">
+                  <p>
+                    {{team.currentAnswer}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form ng-hide='team.currentExplanation !== "" && team.editExplanation === false' name="whyForm" novalidate>
+            <div class="grid-block">
+              <div class="block large-10 grid-container">
+                <div class="small-3 medium-12 grid-content">
+                  <label>
+                    <span class='inline-label'>
+                      <textarea rows='10' ng-model='explanation' placeholder="explain here"required></textarea>
+                    </span>
+                  </label>
+                </div>
+                <div class="small-3 medium-12 grid-content">
+                  <input type="submit" ng-disabled="whyForm.$invalid" ng-click='submitExplanation(explanation, team)' class="dark button" value="Submit Explanation">
+                </div>
+              </div>
+            </div>
+          </form>
+          <div ng-show='team.editExplanation === false' class="">
+            <div class="grid-block">
+              <div class="block large-10 grid-container">
+                <h6>Explanation:</h6>
+                <div ng-dblclick='editExplanation(team)' class="showExplanation small-3 medium-12 grid-content">
+                  <p>
+                    {{team.currentExplanation}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-show='cookie === "martha"'>
+      <div ng-repeat='team in geopardy track by $index'>
+        <div ng-class='team.' class="">
+          <p>
+            {{team.name}} {{team.score}}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
