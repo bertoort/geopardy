@@ -12,7 +12,7 @@
     'foundation.dynamicRouting',
     'foundation.dynamicRouting.animations'
   ])
-    app.config(config)
+    app.config(config)``
     app.run(run)
     app.controller('login', login)
     app.controller('header', header)

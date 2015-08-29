@@ -107,7 +107,7 @@ controller: trivia
     </div>
     <div ng-show='cookie === "martha"'>
       <div ng-repeat='team in geopardy track by $index'>
-        <div ng-class='team.' class="">
+        <div ng-class='{"answered": team.answered}' class="">
           <p>
             {{team.name}} {{team.score}}
           </p>
