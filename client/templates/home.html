@@ -39,7 +39,10 @@ controller: trivia
       </section>
     </div>
   </div>
-  <div class="medium-grid-block medium-9 large-9 collapse vertical">
+  <div ng-if='!cookie' class="medium-grid-block medium-9 large-9 collapse vertical timer">
+    login to join the party
+  </div>
+  <div ng-if='cookie' class="medium-grid-block medium-9 large-9 collapse vertical">
     <div class="grid-block small-12" ng-show='cookie !== "admin"'>
       <div id="header" class="collapse grid-content">
         <ul class="menu-bar">
@@ -69,7 +72,7 @@ controller: trivia
       <div class="small-12 align-center grid-block">
         <h3 class='teamName'>{{cookie}}</h3>
       </div>
-      <div ng-show='timer.time.minutes === "00" && timer.time.seconds === "00"'>
+      <div ng-show='timer.time.minutes === "00" && timer.time.seconds === "00"' class='timer'>
         Pencils down
       </div>
       <div ng-show='timer.time.minutes > "00" || timer.time.seconds > "00"'>
@@ -103,7 +106,7 @@ controller: trivia
                 <div class="small-3 medium-12 grid-content">
                   <label>
                     <span class='inline-label'>
-                      <textarea rows='10' ng-model='explanation' placeholder="explain here"required> {{team.currentExplanation}}</textarea>
+                      <textarea rows='10' ng-model='explanation' placeholder="explain here"required> </textarea>
                     </span>
                   </label>
                 </div>
@@ -124,9 +127,23 @@ controller: trivia
         </div>
       </div>
     </div>
-    <div class="small-grid-block small-12 vertical" ng-show='showTimer'>
+    <div ng-if='cookie === "admin"' class="small-grid-block small-12 vertical" ng-show='showTimer'>
       <div class="timer" ng-class='{"timeUp": timer.time.minutes === "00" && timer.time.seconds === "00"}' >
         {{timer.time.minutes}} : {{timer.time.seconds}}
+      <div ng-if='timer.time.minutes === "00" && timer.time.seconds === "00"' class="teamsLeft">
+        Time's up!
+      </div>
+      <div ng-if='timer.time.minutes > "00" || timer.time.seconds > "00"' class="teamsLeft">
+        <div ng-if='timer.teamsLeft === 1'>
+          {{timer.teamsLeft}} team left to answer
+        </div>
+        <div ng-if='timer.teamsLeft > 1'>
+          {{timer.teamsLeft}} teams left to answer
+        </div>
+        <div class='allAnswered' ng-if='timer.teamsLeft === 0'>
+          All teams have answered!
+        </div>
+      </div>
       </div>
     </div>
     <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && !display'>

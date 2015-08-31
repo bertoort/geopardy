@@ -139,17 +139,22 @@
       $scope.geopardy.$save(team);
     }
     $scope.submitExplanation = function (explanation, team) {
-      team.currentExplanation = '';
+      if (team.currentExplanation === '') {
+        $scope.timer.teamsLeft = $scope.timer.teamsLeft - 1;
+        $scope.timer.$save();
+      }
       team.currentExplanation = explanation;
       team.editExplanation = false;
-      team.explaned = true;
+      team.explained = true;
       $scope.geopardy.$save(team);
     }
     $scope.editExplanation = function (team) {
+      $scope.explanation = team.currentExplanation;
       team.editExplanation = true;
       $scope.geopardy.$save(team);
     }
     $scope.editAnswer = function (team) {
+      $scope.answer = team.currentAnswer;
       team.editAnswer = true;
       $scope.geopardy.$save(team);
     }
@@ -189,7 +194,9 @@
     }
     $scope.resetTeams = function () {
       $scope.geopardy.forEach(function (team) {
-        $scope.geopardy.$remove(team);
+        if (!team.time && team.name !== "admin") {
+          $scope.geopardy.$remove(team);
+        }
       })
       $scope.display = false;
     }
@@ -200,19 +207,19 @@
       $scope.display = false;
     }
     $scope.setTimer = function (minutes, seconds) {
-      if (minutes < 10) {
-        var mins = '0' + minutes
-      } else if (minutes === undefined) {
+      if (!minutes) {
         var mins = "00";
-      } else if (minutes > 99) {
+      } else if (minutes < 10) {
+        var mins = '0' + minutes
+      }  else if (minutes > 99) {
         var mins = '99'
       } else {
         var mins = String(minutes)
       }
-      if (seconds < 10) {
+      if (!seconds) {
+       var secs = "00";
+      } else if (seconds < 10) {
         var secs = '0' + seconds
-      } else if (minutes === undefined) {
-        var secs = "00";
       } else if (seconds > 59) {
         var secs = '59';
       } else {
@@ -230,6 +237,7 @@
     $scope.startTimer = function () {
       $scope.showTimer = true;
       $scope.timer.time = {minutes: $scope.timer.set.minutes, seconds: $scope.timer.set.seconds};
+      $scope.timer.teamsLeft = $scope.geopardy.length - 2;
       $scope.timer.$save();
       if ($scope.startedTimer === false) {
         $scope.startedTimer = true;
