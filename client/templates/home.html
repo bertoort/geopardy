@@ -134,13 +134,13 @@ controller: trivia
         Time's up!
       </div>
       <div ng-if='timer.time.minutes > "00" || timer.time.seconds > "00"' class="teamsLeft">
-        <div ng-if='timer.teamsLeft === 1'>
+        <div ng-if='timer.teamsLeft === 1 && startedTimer'>
           {{timer.teamsLeft}} team left to answer
         </div>
-        <div ng-if='timer.teamsLeft > 1'>
+        <div ng-if='timer.teamsLeft > 1 && startedTimer'>
           {{timer.teamsLeft}} teams left to answer
         </div>
-        <div class='allAnswered' ng-if='timer.teamsLeft === 0'>
+        <div class='allAnswered' ng-if='timer.teamsLeft === 0 && startedTimer'>
           All teams have answered!
         </div>
       </div>
