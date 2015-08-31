@@ -4,6 +4,7 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 hr {
@@ -34,10 +35,15 @@ hr {
 
 .teamName {
   color: #FF9400;
+  text-align: center; 
 }
 
 .showExplanation {
-  border: 1px solid #666;
+  border: 1px solid #F1F1F1;
+  border-radius: 3px;
+  background: #F1F1F1;
+  color: black;
+  margin-bottom: 2%;
 }
 
 .answered {
@@ -61,9 +67,45 @@ hr {
 .team-bars {
   border-bottom: 1px solid #D0D0D0;
   min-height: 70px;
+  padding-top: 2%;
 }
 
 .panel {
   padding: 1%;
   padding-top: 2%;
+}
+
+.teamBarName {
+  font-size: 200%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.teamBarScore, .arrow {
+  width: 30px;
+  font-size: 200%;
+  margin: 2%;
+  margin-top: 0;
+}
+
+.arrow {
+  font-size: 150%;
+  margin-top: 1%;
+}
+
+.teamBarScore {
+  color: #467B2D;
+}
+
+.right {
+  float: right;
+}
+
+.timer {
+  font-weight: bold;
+  font-size: 300%;
+}
+
+.timeUp {
+  color: #F04124;
 }

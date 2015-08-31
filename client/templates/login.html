@@ -76,10 +76,10 @@ controller: login
                 </span>
               </label>
             </div>
-            <div ng-show='signupForm.confirm.$dirty && password !== confirm' class="passwordConfirmation small-3 medium-12 grid-content">
+            <div ng-show='signupForm.confirm.$dirty && signupPassword !== signupConfirm' class="passwordConfirmation small-3 medium-12 grid-content">
               not a match
             </div>
-            <div ng-show='signupForm.confirm.$dirty && password === confirm' class="passwordConfirmation small-3 medium-12 grid-content">
+            <div ng-show='signupForm.confirm.$dirty && signupPassword === signupConfirm' class="passwordConfirmation small-3 medium-12 grid-content">
               match!
             </div>
             <div class="small-3 medium-12 grid-content gap" ng-hide='signupForm.confirm.$dirty'>

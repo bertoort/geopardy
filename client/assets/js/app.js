@@ -66,8 +66,10 @@
       var unique = true;
       $scope.signupError.team = true;
       $scope.geopardy.forEach(function (team) {
-        if (team.name.toLowerCase() === teamName.toLowerCase()) {
-          unique = false;
+        if (team.name) {
+          if (team.name.toLowerCase() === teamName.toLowerCase()) {
+            unique = false;
+          }
         }
       })
       if (unique) {
@@ -88,11 +90,13 @@
       $scope.loginError.team = true;
       $scope.loginError.password = false;
       $scope.geopardy.forEach(function (team) {
-        if (team.name.toLowerCase() === $scope.team.toLowerCase() && team.password === $scope.password) {
-          passwordMatch = true;
-        } else if (team.name.toLowerCase() === $scope.team.toLowerCase()) {
-          $scope.loginError.team = false;
-          $scope.loginError.password = true;
+        if (team.name) {
+          if (team.name.toLowerCase() === $scope.team.toLowerCase() && team.password === $scope.password) {
+            passwordMatch = true;
+          } else if (team.name.toLowerCase() === $scope.team.toLowerCase()) {
+            $scope.loginError.team = false;
+            $scope.loginError.password = true;
+          }
         }
       })
       if (passwordMatch) {
@@ -116,12 +120,12 @@
 
   function trivia($scope, Cookie, $firebaseArray, $firebaseObject) {
     $scope.cookie = Cookie.cookie();
-    var geopardyRef = new Firebase("https://geopardy.firebaseio.com/x");
+    var geopardyRef = new Firebase("https://geopardy.firebaseio.com/");
     var timerRef = new Firebase("https://geopardy.firebaseio.com/timer");
     $scope.geopardy = $firebaseArray(geopardyRef);
     $scope.timer = $firebaseObject(timerRef);
     $scope.display = false;
-    $scope.showTimer = true;
+    $scope.showTimer = false;
     $scope.startedTimer = false;
     var interval;
     $scope.timerState = "Start Timer";
@@ -196,7 +200,31 @@
       $scope.display = false;
     }
     $scope.setTimer = function (minutes, seconds) {
-      $scope.timer.set = {minutes: minutes, seconds: seconds}
+      if (minutes < 10) {
+        var mins = '0' + minutes
+      } else if (minutes === undefined) {
+        var mins = "00";
+      } else if (minutes > 99) {
+        var mins = '99'
+      } else {
+        var mins = String(minutes)
+      }
+      if (seconds < 10) {
+        var secs = '0' + seconds
+      } else if (minutes === undefined) {
+        var secs = "00";
+      } else if (seconds > 59) {
+        var secs = '59';
+      } else {
+        var secs = String(seconds)
+      }
+      if (interval) {
+        clearInterval(interval)
+        $scope.startedTimer = false;
+        $scope.timerState = "Start Timer";
+      }
+      $scope.timer.set = {minutes: mins, seconds: secs};
+      $scope.timer.time = {minutes: $scope.timer.set.minutes, seconds: $scope.timer.set.seconds};
       $scope.timer.$save();
     }
     $scope.startTimer = function () {
@@ -205,19 +233,27 @@
       $scope.timer.$save();
       if ($scope.startedTimer === false) {
         $scope.startedTimer = true;
-        $scope.timerState = "Stop Timer";
+        $scope.timerState = "Reset Timer";
         interval = setInterval(function countdown() {
-           if($scope.timer.time.seconds === 0) {
-               if($scope.timer.time.minutes == 0) {
+           if($scope.timer.time.seconds === "00") {
+               if($scope.timer.time.minutes == "00") {
                  clearInterval(interval)
                  return;
                } else {
-                   $scope.timer.time.minutes--;
-                   $scope.timer.time.seconds = 60;
+                   var mins = Number($scope.timer.time.minutes) - 1
+                   if (mins < 10) {
+                     mins = '0' + mins
+                   }
+                   $scope.timer.time.minutes = mins;
+                   $scope.timer.time.seconds = "60";
                    $scope.timer.$save();
                }
            }
-           $scope.timer.time.seconds--;
+           var secs = Number($scope.timer.time.seconds) - 1
+           if (secs < 10) {
+             secs = '0' + secs
+           }
+           $scope.timer.time.seconds = secs;
            $scope.timer.$save();
         }, 1000);
       } else {
@@ -225,6 +261,9 @@
         $scope.startedTimer = false;
         $scope.timerState = "Start Timer";
       }
+    }
+    $scope.toggleTimer = function () {
+      $scope.showTimer = !$scope.showTimer;
     }
   }
 

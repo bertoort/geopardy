@@ -6,9 +6,11 @@ controller: trivia
 
 <div class='panel' zf-panel="" id='panelName' position="right">
   <a zf-close="" class="close-button">×</a>
-  <p>This is a top panel.</p>
+  <h3>Timer</h3>
   <div class="timer">
+    <label>Minutes:</label>
     <input type="number" ng-model='setMinutes'>
+    <label>Seconds:</label>
     <input type="number" ng-model='setSeconds'>
     <a zf-close='' href="#" ng-click='setTimer(setMinutes, setSeconds)' class="warning button">Set Time</a>
   </div>
@@ -38,119 +40,186 @@ controller: trivia
     </div>
   </div>
   <div class="medium-grid-block medium-9 large-9 collapse vertical">
-    <div class="grid-block small-12">
+    <div class="grid-block small-12" ng-show='cookie !== "admin"'>
       <div id="header" class="collapse grid-content">
         <ul class="menu-bar">
           <li class="hide-for-medium"><a zf-open="sidebar" href="#">Menu</a></li>
-          <li><a href="#">Add Time</a></li>
+          <li><a href="#" ng-click='toggleTimer()'>Toggle Timer</a></li>
+          <li><a ng-click='' href="#">Toggle Question</a></li>
+          <li><a href="#" title="Nice try" color="success" content="Get back to it" autoclose="3000" zf-notify="main-notifications">Show Answer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-block small-12" ng-show='cookie === "admin"'>
+      <div id="header" class="collapse grid-content">
+        <ul class="menu-bar">
+          <li class="hide-for-medium"><a zf-open="sidebar" href="#">Menu</a></li>
+          <li><a href="#" ng-click='toggleTimer()'>Toggle Timer</a></li>
           <li><a ng-click='startTimer(timerSeconds, timerMinutes)' href="#">{{timerState}}</a></li>
           <li><a href="#" zf-open="panelName">Settings</a></li>
         </ul>
       </div>
     </div>
     <div class='grid-content' ng-show='cookie !== "admin"'>
+      <div class="small-grid-block small-12 vertical" ng-show='showTimer'>
+        <div class="timer" ng-class='{"timeUp": timer.time.minutes === "00" && timer.time.seconds === "00"}'>
+          {{timer.time.minutes}} : {{timer.time.seconds}}
+        </div>
+      </div>
       <div class="small-12 align-center grid-block">
         <h3 class='teamName'>{{cookie}}</h3>
       </div>
-      <div ng-repeat='team in geopardy track by $index'>
-        <div ng-show='cookie === team.name'>
-          <form ng-hide='team.currentAnswer !== "" && team.editAnswer === false' name="answerForm" novalidate>
-            <div class="block large-10 grid-container">
-              <div class="small-3 medium-12 grid-content">
-                <label>
-                  <span class='inline-label'>
-                    <span class="form-label"><i class='fi-key icon'></i></span>
-                    <input type="text" name='answer' ng-model='answer' ng-minlength="3" placeholder="answer here" required>
-                    <input type="submit" ng-disabled="answerForm.$invalid" ng-click='submitAnswer(answer, team)' class="dark button" value="answer">
-                  </span>
-                </label>
+      <div ng-show='timer.time.minutes === "00" && timer.time.seconds === "00"'>
+        Pencils down
+      </div>
+      <div ng-show='timer.time.minutes > "00" || timer.time.seconds > "00"'>
+        <div ng-repeat='team in geopardy'>
+          <div ng-show='cookie === team.name'>
+            <form ng-hide='team.currentAnswer !== "" && team.editAnswer === false' name="answerForm" novalidate>
+              <div class="block large-10 grid-container">
+                <div class="small-3 medium-12 grid-content">
+                  <label>
+                    <span class='inline-label'>
+                      <span class="form-label"><i class='fi-key icon'></i></span>
+                      <input type="text" name='answer' ng-model='answer' ng-minlength="3" placeholder="answer here" required>
+                      <input type="submit" ng-disabled="answerForm.$invalid" ng-click='submitAnswer(answer, team)' class="dark button" value="answer">
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </form>
+            <div ng-show='team.editAnswer === false' class="">
+              <div class="block large-10 grid-container">
+                <h6>Answer:</h6>
+                <div ng-dblclick='editAnswer(team)' class="showExplanation small-3 medium-12 grid-content">
+                  <p>
+                    {{team.currentAnswer}}
+                  </p>
+                </div>
               </div>
             </div>
-          </form>
-          <div ng-show='team.editAnswer === false' class="">
+            <form ng-hide='team.currentExplanation !== "" && team.editExplanation === false' name="whyForm" novalidate>
+              <div class="block large-10 grid-container">
+                <div class="small-3 medium-12 grid-content">
+                  <label>
+                    <span class='inline-label'>
+                      <textarea rows='10' ng-model='explanation' placeholder="explain here"required> {{team.currentExplanation}}</textarea>
+                    </span>
+                  </label>
+                </div>
+                <div class="small-3 medium-12 grid-content">
+                  <input type="submit" ng-disabled="whyForm.$invalid" ng-click='submitExplanation(explanation, team)' class="dark button" value="Submit Explanation">
+                </div>
+              </div>
+            </form>
+            <div ng-show='team.editExplanation === false' class="">
+              <div class="block large-10 grid-container">
+                <h6>Explanation:</h6>
+                <div ng-dblclick='editExplanation(team)' class="showExplanation small-3 medium-12 grid-content">
+                  <pre>{{team.currentExplanation}}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="small-grid-block small-12 vertical" ng-show='showTimer'>
+      <div class="timer" ng-class='{"timeUp": timer.time.minutes === "00" && timer.time.seconds === "00"}' >
+        {{timer.time.minutes}} : {{timer.time.seconds}}
+      </div>
+    </div>
+    <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && !display'>
+      <div ng-show='geopardy.length > 0' class="grid-content">
+        <div class="grid-block align-center small-12">
+          <a href="#" ng-click='displayTeams()' class="warning button">Show Teams</a>
+        </div>
+      </div>
+    </div>
+    <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && display'>
+      <h3 ng-show='geopardy.length > 0' class='teamName'>Teams</h3>
+      <h3 ng-hide='geopardy.length > 0' class='teamName'>No Teams Aboard</h3>
+      <div ng-repeat='team in geopardy | orderBy: "answerSubmissionTime"'>
+        <div class='team-bars' ng-if='team.name !== "admin" && team.name'>
+          <div class="small-grid-block small-12" >
+            <div class="small-grid-block small-4">
+              <div class="teamBarName">
+                {{team.name}}
+              </div>
+              <div class="teamBarScore">
+                {{team.score}}
+              </div>
+            </div>
+            <div class="grid-block small-4">
+              <span class='arrow' ng-click='up()'><i class='fi-arrow-up'></i></span>
+              <span class='arrow' ng-click='down()'><i class='fi-arrow-down'></i></span>
+            </div>
+            <div class="grid-block small-4">
+              <div class="small-grid-block small-8">
+                <a href="#" ng-if='team.currentAnswer !== ""' ng-click='showAnswer(); showExplanation()' class="secondary button small-10">Submission</a>
+              </div>
+              <div class="small-grid-block small-4">
+                <a href="#" zf-open="destroyTeam" class="alert hollow button small-10">Delete</a>
+              </div>
+            </div>
+          </div>
+          <div ng-show='team.showAnswer' class="">
             <div class="block large-10 grid-container">
               <h6>Answer:</h6>
-              <div ng-dblclick='editAnswer(team)' class="showExplanation small-3 medium-12 grid-content">
+              <div class="showExplanation small-3 medium-12 grid-content">
                 <p>
                   {{team.currentAnswer}}
                 </p>
               </div>
             </div>
           </div>
-          <form ng-hide='team.currentExplanation !== "" && team.editExplanation === false' name="whyForm" novalidate>
-            <div class="block large-10 grid-container">
-              <div class="small-3 medium-12 grid-content">
-                <label>
-                  <span class='inline-label'>
-                    <textarea rows='10' ng-model='explanation' placeholder="explain here"required></textarea>
-                  </span>
-                </label>
-              </div>
-              <div class="small-3 medium-12 grid-content">
-                <input type="submit" ng-disabled="whyForm.$invalid" ng-click='submitExplanation(explanation, team)' class="dark button" value="Submit Explanation">
-              </div>
-            </div>
-          </form>
-          <div ng-show='team.editExplanation === false' class="">
+          <div ng-show='team.showExplanation' class="">
             <div class="block large-10 grid-container">
               <h6>Explanation:</h6>
-              <div ng-dblclick='editExplanation(team)' class="showExplanation small-3 medium-12 grid-content">
-                <p>
-                  {{team.currentExplanation}}
-                </p>
+              <div class="showExplanation small-3 medium-12 grid-content">
+                <pre>{{team.currentExplanation}}</pre>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && !display'>
-      <div ng-show='geopardy.length > 0' class="grid-content">
-        <a href="#" ng-click='displayTeams()' class="warning button">Show Teams</a>
-      </div>
-    </div>
-    <div class="small-grid-block small-12 vertical" ng-show='showTimer'>
-      <div class="timer">
-        {{timer.time.minutes}}
-        :
-        {{timer.time.seconds}}
-      </div>
-    </div>
-    <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && display'>
-      <div class="grid-content">
-        <h3 ng-show='geopardy.length > 0' class='teamName'>Teams</h3>
-        <h3 ng-hide='geopardy.length > 0' class='teamName'>No Teams Aboard</h3>
-        <div ng-repeat='team in geopardy | orderBy: "answerSubmissionTime"'>
-          <div class='team-bars' ng-if='team.name !== "admin"'>
-            <div class="small-grid-block small-12" >
-              <div class="small-grid-block small-4">
-                {{team.name}} {{team.score}}
-                <span class='arrow' ng-click='up()'><i class='fi-arrow-up'></i></span>
-                <span class='arrow' ng-click='down()'><i class='fi-arrow-down'></i></span>
-              </div>
-              <div class="grid-block small-4">
-                <a href="#" ng-if='team.currentAnswer !== ""' ng-click='showAnswer()' class="dark button">Answer</a>
-                <a href="#" ng-if='team.currentExplanation !== ""' ng-click='showExplanation()' class="dark button">Explanation</a>
-              </div>
-              <div class="grid-block small-4">
-                <span class='arrow' ng-click='delete()'><i class='fi-x'></i></span>
-              </div>
-            </div>
-            <div ng-show='team.showAnswer' class="">
-              {{team.currentAnswer}}
-            </div>
-            <div ng-show='team.showExplanation' class="">
-              {{team.currentExplanation}}
-            </div>
+          <div zf-modal="" id="destroyTeam" overlay="false" overlay-close="false" class="tiny dialog">
+            <h4>Yo, do you <em>really</em> want to get rid of this team?</h4>
+            <a zf-close=""  ng-click='delete()' class="alert button">Yeah</a>
+            <a zf-close="" class="secondary button">Nah</a>
           </div>
         </div>
-      </div>
-      <div class="grid-content">
-        <a href="#" ng-show='geopardy.length > 0' ng-click='resetAnswers()' class="dark button">Reset Answers</a>
-        <a href="#" ng-show='geopardy.length > 0' ng-click='resetTeams()' class="alert button">Reset Teams</a>
-        <a href="#" ng-show='geopardy.length > 0' ng-click='hideTeams()' class="warning button">Hide Teams</a>
       </div>
       <div class="padding"></div>
+      <div class="grid-content">
+        <div class="large-grid-block large-12">
+          <div class="small-grid-block small-5">
+            <a href="#" ng-show='geopardy.length > 0' ng-click='hideTeams()' class="warning button small-10">Hide Teams</a>
+          </div>
+          <div class="small-grid-block small-5">
+            <a href="#" ng-show='geopardy.length > 0' zf-open="resetSubmissions" class="secondary button small-10">Reset Submissions</a>
+          </div>
+          <div class="small-grid-block small-2">
+            <a href="#" ng-show='geopardy.length > 0' zf-open="resetTeams" class="alert hollow button small-10">Reset Teams</a>
+          </div>
+        </div>
+      </div>
+      <div class="padding"></div>
+      <div class="padding"></div>
+    </div>
+    <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && display'>
     </div>
   </div>
 </div>
+
+<div zf-modal="" id="resetTeams" overlay="false" overlay-close="false" class="tiny dialog">
+  <h4>Yo, do you <em>really</em> want to destroy all teams?</h4>
+  <a zf-close=""  ng-click='resetTeams()' class="alert button">Yeah</a>
+  <a zf-close="" class="secondary button">Nah</a>
+</div>
+
+<div zf-modal="" id="resetSubmissions" overlay="false" overlay-close="false" class="tiny dialog">
+  <h4>Yo, for real?</h4>
+  <a zf-close=""  ng-click='resetAnswers()' class="alert button">Yeah</a>
+  <a zf-close="" class="secondary button">Nah</a>
+</div>
+
+<zf-notification-set id="main-notifications" position="top-left"></zf-notification-set>
