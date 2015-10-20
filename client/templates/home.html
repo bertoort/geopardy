@@ -12,7 +12,7 @@ controller: trivia
     <input type="number" ng-model='setMinutes'>
     <label>Seconds:</label>
     <input type="number" ng-model='setSeconds'>
-    <a zf-close='' href="#" ng-click='setTimer(setMinutes, setSeconds)' class="warning button">Set Time</a>
+    <a zf-close='' ng-click='setTimer(setMinutes, setSeconds)' class="warning button">Set Time</a>
   </div>
 </div>
 <div class="grid-frame">
@@ -29,7 +29,7 @@ controller: trivia
         <ul>
           <div ng-repeat='team in geopardy | orderBy: "-score"'>
             <li ng-if='team.name !== "admin"'>
-              <a href="#">
+              <a >
                 {{team.name}}
                 <span class="block-list-label">{{team.score}}</span>
               </a>
@@ -46,20 +46,20 @@ controller: trivia
     <div class="grid-block small-12" ng-show='cookie !== "admin"'>
       <div id="header" class="collapse grid-content">
         <ul class="menu-bar">
-          <li class="hide-for-medium"><a zf-open="sidebar" href="#">Menu</a></li>
-          <li><a href="#" ng-click='toggleTimer()'>Toggle Timer</a></li>
-          <li><a ng-click='' href="#">Toggle Question</a></li>
-          <li><a href="#" title="Nice try" color="success" content="Get back to it" autoclose="3000" zf-notify="main-notifications">Show Answer</a></li>
+          <li class="hide-for-medium"><a zf-open="sidebar">Menu</a></li>
+          <li><a ng-click='toggleTimer()'>Toggle Timer</a></li>
+          <li><a ng-click=''>Toggle Question</a></li>
+          <li><a title="Nice try" color="success" content="Get back to it" autoclose="3000" zf-notify="main-notifications">Show Answer</a></li>
         </ul>
       </div>
     </div>
     <div class="grid-block small-12" ng-show='cookie === "admin"'>
       <div id="header" class="collapse grid-content">
         <ul class="menu-bar">
-          <li class="hide-for-medium"><a zf-open="sidebar" href="#">Menu</a></li>
-          <li><a href="#" ng-click='toggleTimer()'>Toggle Timer</a></li>
-          <li><a ng-click='startTimer(timerSeconds, timerMinutes)' href="#">{{timerState}}</a></li>
-          <li><a href="#" zf-open="panelName">Settings</a></li>
+          <li class="hide-for-medium"><a zf-open="sidebar">Menu</a></li>
+          <li><a ng-click='toggleTimer()'>Toggle Timer</a></li>
+          <li><a ng-click='startTimer(timerSeconds, timerMinutes)'>{{timerState}}</a></li>
+          <li><a zf-open="panelName">Settings</a></li>
         </ul>
       </div>
     </div>
@@ -72,10 +72,10 @@ controller: trivia
       <div class="small-12 align-center grid-block">
         <h3 class='teamName'>{{cookie}}</h3>
       </div>
-      <div ng-show='timer.time.minutes === "00" && timer.time.seconds === "00"' class='timer'>
+      <div ng-show='!timer.time.show' class='timer'>
         Pencils down
       </div>
-      <div ng-show='timer.time.minutes > "00" || timer.time.seconds > "00"'>
+      <div ng-show='timer.time.show'>
         <div ng-repeat='team in geopardy'>
           <div ng-show='cookie === team.name'>
             <form ng-hide='team.currentAnswer !== "" && team.editAnswer === false' name="answerForm" novalidate>
@@ -149,7 +149,7 @@ controller: trivia
     <div class="small-grid-block small-12 vertical" ng-show='cookie === "admin" && !display'>
       <div ng-show='geopardy.length > 0' class="grid-content">
         <div class="grid-block align-center small-12">
-          <a href="#" ng-click='displayTeams()' class="warning button">Show Teams</a>
+          <a ng-click='displayTeams()' class="warning button">Show Teams</a>
         </div>
       </div>
     </div>
@@ -173,10 +173,10 @@ controller: trivia
             </div>
             <div class="grid-block small-4">
               <div class="small-grid-block small-8">
-                <a href="#" ng-if='team.currentAnswer !== ""' ng-click='showAnswer(); showExplanation()' class="secondary button small-10">Submission</a>
+                <a ng-if='team.currentAnswer !== ""' ng-click='showAnswer(); showExplanation()' class="secondary button small-10">Submission</a>
               </div>
               <div class="small-grid-block small-4">
-                <a href="#" zf-open="destroyTeam" class="alert hollow button small-10">Delete</a>
+                <a zf-open="destroyTeam" class="alert hollow button small-10">Delete</a>
               </div>
             </div>
           </div>
@@ -209,13 +209,13 @@ controller: trivia
       <div class="grid-content">
         <div class="large-grid-block large-12">
           <div class="small-grid-block small-5">
-            <a href="#" ng-show='geopardy.length > 0' ng-click='hideTeams()' class="warning button small-10">Hide Teams</a>
+            <a ng-show='geopardy.length > 0' ng-click='hideTeams()' class="warning button small-10">Hide Teams</a>
           </div>
           <div class="small-grid-block small-5">
-            <a href="#" ng-show='geopardy.length > 0' zf-open="resetSubmissions" class="secondary button small-10">Reset Submissions</a>
+            <a ng-show='geopardy.length > 0' zf-open="resetSubmissions" class="secondary button small-10">Reset Submissions</a>
           </div>
           <div class="small-grid-block small-2">
-            <a href="#" ng-show='geopardy.length > 0' zf-open="resetTeams" class="alert hollow button small-10">Reset Teams</a>
+            <a ng-show='geopardy.length > 0' zf-open="resetTeams" class="alert hollow button small-10">Reset Teams</a>
           </div>
         </div>
       </div>

@@ -41,12 +41,9 @@
   function config($urlProvider, $locationProvider) {
 
     $locationProvider.html5Mode({
-      enabled:false,
-      requireBase: false
+      enabled: true,
+      requireBase: true
     });
-
-    $locationProvider.hashPrefix();
-
     $urlProvider.otherwise('/');
 
   }
@@ -114,7 +111,7 @@
     $scope.logout = function () {
       $scope.cookie = null;
       $.removeCookie('team');
-      window.location.href = '#/login';
+      window.location.href = '/login';
     }
   }
 
@@ -127,6 +124,7 @@
     $scope.display = false;
     $scope.showTimer = false;
     $scope.startedTimer = false;
+    $scope.submittable = false;
     var interval;
     $scope.timerState = "Start Timer";
     $scope.submitAnswer = function (answer, team) {
@@ -239,13 +237,19 @@
       $scope.timer.time = {minutes: $scope.timer.set.minutes, seconds: $scope.timer.set.seconds};
       $scope.timer.teamsLeft = $scope.geopardy.length - 2;
       $scope.timer.$save();
+      $scope.submittable = true;
       if ($scope.startedTimer === false) {
+        $scope.submittable = true;
         $scope.startedTimer = true;
         $scope.timerState = "Reset Timer";
+        $scope.timer.time.show = true;
+        $scope.timer.$save();
         interval = setInterval(function countdown() {
            if($scope.timer.time.seconds === "00") {
                if($scope.timer.time.minutes == "00") {
                  clearInterval(interval)
+                 $scope.timer.time.show = false;
+                 $scope.timer.$save();
                  return;
                } else {
                    var mins = Number($scope.timer.time.minutes) - 1
@@ -267,6 +271,7 @@
       } else {
         clearInterval(interval)
         $scope.startedTimer = false;
+        $scope.submittable = false;
         $scope.timerState = "Start Timer";
       }
     }
