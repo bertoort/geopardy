@@ -36,7 +36,7 @@
   config.$inject = ['$urlRouterProvider', '$locationProvider'];
   login.$inject = ['$scope', 'cookie', '$firebaseArray'];
   header.$inject = ['$scope', 'cookie'];
-  trivia.$inject = ['$scope', 'cookie', '$firebaseArray', '$firebaseObject'];
+  trivia.$inject = ['$scope', 'cookie', '$firebaseArray', '$firebaseObject', '$location'];
 
   function config($urlProvider, $locationProvider) {
 
@@ -52,7 +52,7 @@
     FastClick.attach(document.body);
   }
 
-  function login($scope, Cookie, $firebaseArray) {
+  function login($scope, Cookie, $firebaseArray, $location) {
     var geopardyRef = new Firebase("https://geopardy.firebaseio.com/");
     $scope.geopardy = $firebaseArray(geopardyRef);
     $scope.loginError = {};
@@ -115,7 +115,7 @@
     }
   }
 
-  function trivia($scope, Cookie, $firebaseArray, $firebaseObject) {
+  function trivia($scope, Cookie, $firebaseArray, $firebaseObject, $location) {
     $scope.cookie = Cookie.cookie();
     var geopardyRef = new Firebase("https://geopardy.firebaseio.com/");
     var timerRef = new Firebase("https://geopardy.firebaseio.com/timer");
@@ -127,6 +127,9 @@
     $scope.submittable = false;
     var interval;
     $scope.timerState = "Start Timer";
+    if (!$scope.cookie) {
+      $location.path('/login')
+    }
     $scope.submitAnswer = function (answer, team) {
       var time = new Date();
       team.currentAnswer = '';
