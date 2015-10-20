@@ -1,3 +1,1 @@
-## geopardy
-
-get your brains ready
+# geopardy
