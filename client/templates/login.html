@@ -1,0 +1,100 @@
+---
+name: login
+url: /login
+controller: login
+---
+
+<div class="login">
+  <form name="loginForm" novalidate>
+    <div class="grid-block">
+      <div class="block large-4 grid-container">
+        <div ng-show='cookie' class="small-3 medium-12 grid-content">
+          Hello {{cookie}}, you're already logged in.
+        </div>
+        <div class="small-3 medium-12 grid-content">
+          <label>
+            <span class='inline-label'>
+              <span class="form-label"><i class='fi-torsos-all icon'></i></span>
+              <input type="text" ng-model='team'  ng-minlength="3" placeholder="team name" required>
+            </span>
+          </label>
+        </div>
+        <div class="small-3 medium-12 grid-content">
+          <label>
+            <span class='inline-label'>
+              <span class="form-label"><i class='fi-lock icon'></i></span>
+              <input type="password" ng-model='password' ng-minlength="3" placeholder="password" required>
+            </span>
+          </label>
+        </div>
+        <div ng-show='loginError.password' class="error">
+          Incorrect Password
+        </div>
+        <div ng-show='loginError.team' class="error">
+          Invalid Team Name
+        </div>
+        <div class="small-3 medium-12 grid-content">
+          <input type="submit" ng-disabled="loginForm.$invalid" ng-click='login()' class="warning button" value="Login">
+          <a class="dark button" zf-open="advancedModal">Sign Up!</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div zf-modal="" id="advancedModal" class="collapse">
+  <div class="grid-block vertical">
+    <div class="dark title-bar">
+      <div class="center title">Sign Up</div>
+      <span zf-close="" class="right"><a>X</a></span>
+    </div>
+    <div class="grid-content padding" style="padding-top: 1rem;">
+      <form name='signupForm'>
+        <div class="grid-block">
+          <div class="block large-8 grid-container">
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-torsos-all icon'></i></span>
+                  <input type="text" ng-minlength='3' ng-model='signupTeamName' placeholder="team name" required>
+                </span>
+              </label>
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-lock icon'></i></span>
+                  <input type="password" ng-model='signupPassword' ng-minlength='3' placeholder="password" required>
+                </span>
+              </label>
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <label>
+                <span class='inline-label'>
+                  <span class="form-label"><i class='fi-lock icon'></i></span>
+                  <input type="password" name='confirm' ng-model='signupConfirm' placeholder="confirm password" required>
+                </span>
+              </label>
+            </div>
+            <div ng-show='signupForm.confirm.$dirty && signupPassword !== signupConfirm' class="passwordConfirmation small-3 medium-12 grid-content">
+              not a match
+            </div>
+            <div ng-show='signupForm.confirm.$dirty && signupPassword === signupConfirm' class="passwordConfirmation small-3 medium-12 grid-content">
+              match!
+            </div>
+            <div class="small-3 medium-12 grid-content gap" ng-hide='signupForm.confirm.$dirty'>
+
+            </div>
+            <div ng-show='signupError.team' class="error">
+              Cool team name, but it already exists.
+            </div>
+            <div class="small-3 medium-12 grid-content">
+              <input type="submit" ng-disabled="signupForm.$invalid || signupPassword !== signupConfirm" ng-click='signup(signupTeamName, signupPassword)' class="warning button" value="Join!">
+              <a zf-close="" class="dark button">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

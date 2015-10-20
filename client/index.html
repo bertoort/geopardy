@@ -3,21 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation for Apps</title>
+    <title>geopardy</title>
     <link href="./assets/css/app.css" rel="stylesheet" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="http://www.galvanize.com/wp-content/themes/galvanize/img/galvanize-g.svg">
     <script src="./assets/js/foundation.js"></script>
     <script src="./assets/js/templates.js"></script>
     <script src="./assets/js/routes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js" type="text/javascript"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js" type="text/javascript"></script>
     <script src="./assets/js/app.js"></script>
+    <base href="/"/>
   </head>
   <body>
-    <div class="grid-frame vertical">
+    <div ng-controller='header' class="grid-frame vertical">
       <div class="grid-content shrink" style="padding: 0;">
-        <ul class="primary condense menu-bar">
-          <li><a><strong>Foundation for Apps</strong></a></li>
-        </ul>
-      </div>
-      <div ui-view class="grid-content">
+        <div class="menu-group dark">
+          <div class="menu-group-left">
+          <ul class="menu-bar dark">
+            <li><a href='#/'><strong>geopardy</strong></a></li>
+          </ul>
+          </div>
+          <div class="menu-group-right">
+          <ul class="icon-left dark menu-bar">
+            <li><a ng-hide='cookie' href="#/login">Login</a></li>
+            <li><a ng-show='cookie' ng-click='logout()' href='#'>Logout</a></li>
+          </ul>
+          </div>
+          </div>
+      <div ui-view >
       </div>
     </div>
   </body>

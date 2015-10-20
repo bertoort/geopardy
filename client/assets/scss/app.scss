@@ -1,2 +1,111 @@
 @import "settings";
 @import "foundation";
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+hr {
+  margin-bottom: 0;
+}
+
+.icon {
+  width: 25px;
+  text-align: center;
+}
+
+#this {
+  margin: 0;
+}
+
+.login {
+  margin-top: 3em;
+}
+
+.grid-block .passwordConfirmation {
+  color: #666;
+  margin-bottom: 5%;
+}
+
+.grid-block .gap {
+  height: 34px;
+}
+
+.teamName {
+  color: #FF9400;
+  text-align: center;
+}
+
+.showExplanation {
+  border: 1px solid #F1F1F1;
+  border-radius: 3px;
+  background: #F1F1F1;
+  color: black;
+  margin-bottom: 2%;
+}
+
+.answered {
+  background: #D0FFB7;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+.padding {
+  width: 100%;
+}
+
+.error {
+  color: #F04124;
+  padding-left: 5%;
+  padding-bottom: 3%;
+}
+
+.team-bars {
+  border-bottom: 1px solid #D0D0D0;
+  min-height: 70px;
+  padding-top: 2%;
+}
+
+.panel {
+  padding: 1%;
+  padding-top: 2%;
+}
+
+.teamBarName {
+  font-size: 200%;
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.teamBarScore, .arrow {
+  width: 30px;
+  font-size: 200%;
+  margin: 2%;
+  margin-top: 0;
+}
+
+.arrow {
+  font-size: 150%;
+  margin-top: 1%;
+}
+
+.teamBarScore, .allAnswered {
+  color: #467B2D;
+}
+
+.right {
+  float: right;
+}
+
+.timer {
+  font-weight: bold;
+  font-size: 300%;
+}
+
+.timeUp {
+  color: #F04124;
+}
