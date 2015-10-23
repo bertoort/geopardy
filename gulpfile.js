@@ -119,6 +119,7 @@ gulp.task('uglify:foundation', function(cb) {
   var uglify = $.if(isProduction, $.uglify()
     .on('error', function (e) {
       console.log(e);
+      console.log("hi guys!")
     }));
 
   return gulp.src(paths.foundationJS)
