@@ -190,6 +190,8 @@
         team.answerSubmissionTime = "9999999999999";
         $scope.geopardy.$save(team);
       })
+      $scope.answer = '';
+      $scope.explanation = '';
       $scope.display = false;
     }
     $scope.resetTeams = function () {
