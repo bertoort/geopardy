@@ -26,6 +26,10 @@ get your brains ready
 
 	`npm install && bower install`
 
+1. Run `foundation-apps watch` to watch your files while you develop (browser will auto refresh on save)
+
+	`foundation-apps watch`
+
 1. Profit!!
 
 
