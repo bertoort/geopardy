@@ -18,8 +18,9 @@ get your brains ready
 
 1. Clone the repo and cd into it:
 
-	```git clone https://github.com/BertoOrt/geopardy.git
-	cd geopardy```
+	`git clone https://github.com/BertoOrt/geopardy.git`
+	
+	`cd geopardy`
 
 1. Install the dependencies:
 
